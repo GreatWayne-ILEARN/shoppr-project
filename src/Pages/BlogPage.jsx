@@ -1,12 +1,7 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 
-const BlogPage = () => {
+export const BlogPage = () => {
   return (
-    <View>
-      <Text>BlogPage</Text>
-    </View>
+    <div>BlogPage</div>
   )
 }
-
-export default BlogPage
