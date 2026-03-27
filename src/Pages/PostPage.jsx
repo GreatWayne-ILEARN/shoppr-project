@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const PostPage = () => {
+const PostPage = () => {
   return (
     <div>PostPage</div>
   )
 }
+
+export default PostPage
