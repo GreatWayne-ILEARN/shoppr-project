@@ -1,8 +1,6 @@
 
-// import React from 'react';
-// // import { Link, NavLink } from 'react-router-dom';
-// Link
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { useCart } from '../context/CartContext'; // adjust path
 import { ShoppingCart } from 'lucide-react'; // if using lucide-react
 

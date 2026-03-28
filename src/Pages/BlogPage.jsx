@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const BlogPage = () => {
+const BlogPage = () => {
   return (
     <div>BlogPage</div>
   )
 }
+
+export default BlogPage
