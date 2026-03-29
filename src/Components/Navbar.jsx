@@ -1,7 +1,7 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { ShoppingBag, Menu, X, Search } from "lucide-react";
 import { useState } from "react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../Context/CartContext";
 
 const links = [
   // { to: "/", label: "Home" },

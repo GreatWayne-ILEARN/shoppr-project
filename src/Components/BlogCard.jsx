@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { calcReadTime, truncate } from "../Utils/helpers";
+import { truncate } from "../Utils/helpers";
 
 export default function BlogCard({ post }) {
   return (

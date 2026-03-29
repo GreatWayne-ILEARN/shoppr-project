@@ -6,7 +6,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
+import { useFetch } from "../Hooks/useFetch";
 import {
   API_BASE,
   POST_IMAGES,

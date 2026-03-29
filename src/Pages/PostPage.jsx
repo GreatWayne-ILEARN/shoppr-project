@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { useFetch } from '../hooks/useFetch'
+import { useFetch } from '../Hooks/useFetch'
 import { API_BASE } from '../Utils/constants'
 import { ErrorMessage } from '../Components/States'
 

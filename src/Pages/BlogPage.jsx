@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Search, X } from 'lucide-react'
-import { useFetch } from '../hooks/useFetch'
+import { useFetch } from '../Hooks/useFetch'
 import { API_BASE } from '../Utils/constants'
 import { PostSkeleton } from '../Components/Skeletons'
 import { ErrorMessage } from '../Components/States'

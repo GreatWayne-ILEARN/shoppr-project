@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { X, ChevronDown, SlidersHorizontal, ChevronUp } from "lucide-react";
-import { useFetch } from "../hooks/useFetch";
+import { useFetch } from "../Hooks/useFetch";
 import { API_BASE, CATEGORIES, SORT_OPTIONS } from "../Utils/constants";
 import ProductCard from "../Components/ProductCard";
 import { ProductSkeleton } from "../Components/Skeletons";
