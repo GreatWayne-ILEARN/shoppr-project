@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="bg-secondary-800 text-tertiary-200 py-8 mt-12">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <h3 className="text-white font-bold mb-4">Shoppr</h3>
+          <h3 style={{color: "#000000"}}>Shoppr</h3>
           <p className="text-sm">Fashion, electronics and lifestyle — delivered to your door.</p>
         </div>
         <div>

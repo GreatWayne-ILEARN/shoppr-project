@@ -26,7 +26,7 @@ export default function Layout() {
                     fontFamily: "DM Sans, sans-serif",
                     fontSize: "1.5rem",
                     fontWeight: 600,
-                    color: "#F8F6F3",
+                    color: "#0a0a0a",
                   }}
                 >
                   Shoppr

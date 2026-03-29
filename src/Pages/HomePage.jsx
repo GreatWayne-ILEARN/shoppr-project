@@ -278,7 +278,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="relative bg-black text-center py-24 px-5 overflow-hidden">
+      <section className="relative bg-black text-center py-24 px-5 overflow-hidden mb-5">
         {/* subtle pattern background */}
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#d4af37_1px,transparent_1px)] bg-size-[20px_20px]" />
 
@@ -290,10 +290,12 @@ const HomePage = () => {
 
           {/* heading */}
           <h1 className="text-4xl md:text-6xl font-bold leading-tight text-white">
-            Free shipping on{" "}
+            Free shipping on{" "}<br />
             <span className="bg-linear-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-              every order over $150
+              every order 
             </span>
+            { " " }
+            over $150
           </h1>
 
           {/* subtext */}
@@ -304,7 +306,7 @@ const HomePage = () => {
           {/* button */}
           <button className="mt-8 inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-semibold px-6 py-3 rounded-full transition">
             SHOP NOW
-            <span>→</span>
+            <span><ArrowRight / > </span>
           </button>
         </div>
       </section>
@@ -362,11 +364,6 @@ const PERKS = [
     Icon: ShieldCheck,
     title: "Secure Payments",
     desc: "Your data is protected",
-  },
-  {
-    Icon: Headphones,
-    title: "24/7 Support",
-    desc: "We're always here for you",
   },
 ];
 
