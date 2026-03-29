@@ -7,12 +7,39 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
-import { API_BASE, POST_IMAGES, TICKER } from "../Utils/constants";
+import {
+  API_BASE,
+  POST_IMAGES,
+  TICKER,
+  categoryImages,
+} from "../Utils/constants";
 import { useState, useRef, useEffect } from "react";
+import { ProductSkeleton, PostSkeleton } from "../Components/Skeletons";
+import ProductCard from "../Components/ProductCard.jsx";
+import PostCard from "../Components/PostCard.jsx";
 
 const HomePage = () => {
-  const { data: prodData } = useFetch(`${API_BASE}/products?limit=8`);
-  const { data: postData } = useFetch(`${API_BASE}/posts?limit=3`);
+  const { data: prodData, loading: prodLoading } = useFetch(
+    `${API_BASE}/products?limit=8`,
+  );
+  const { data: postData, loading: postLoading } = useFetch(
+    `${API_BASE}/posts?limit=3`,
+  );
+
+  const featured = prodData?.products ?? [];
+  const posts =
+    postData?.posts?.map((post, i) => ({
+      ...post,
+      image: POST_IMAGES[i % POST_IMAGES.length],
+    })) ?? [];
+
+  const categories = [
+    { slug: "laptops", large: true },
+    { slug: "fragrances" },
+    { slug: "groceries" },
+    { slug: "home-decor" },
+    { slug: "furniture" },
+  ];
 
   return (
     <div>
@@ -39,12 +66,11 @@ const HomePage = () => {
 
         <div className="relative max-w-7xl mx-auto px-4 py-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="animate-fade-up">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 text-primary-400 text-xs uppercase tracking-[0.15em] mb-8">
+            <div className="inline-flex items-center gap-2 py-1.5 text-primary-400 text-xs uppercase tracking-[0.15em] mb-8">
               - New Season arrivals
             </div>
             <h1
               style={{
-                fontFamily: "Cormorant Garamond",
                 fontSize: "clamp(3rem, 6vw, 5.5rem)",
                 fontWeight: 600,
                 lineHeight: 1.05,
@@ -54,7 +80,7 @@ const HomePage = () => {
             >
               Dress the
               <br />
-              <em style={{ color: "#D4AF70", fontStyle: "italic" }}>life</em>
+              <span style={{ color: "#D4AF70" }}>life</span>
               <br />
               you want.
             </h1>
@@ -88,7 +114,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        <div className="relative bg-secondary-900 border-t border-white/10 h-12 mt-16 align-items-center flex overflow-hidden">
+        <div className="relative bg-secondary-900 border-t border-white/10 h-12 align-items-center flex overflow-hidden">
           {/* fade edges */}
           <div className="absolute left-0 top-0 h-full w-16 bg-linear-to-r from-secondary-900 to-transparent z-10" />
           <div className="absolute right-0 top-0 h-full w-16 bg-linear-to-l from-secondary-900 to-transparent z-10" />
@@ -107,7 +133,221 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* ── Category strip ── */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-12">
+        <h3 className="text-tertiary-500 text-sm font-medium tracking-widest mb-1 uppercase">
+          Shop By
+        </h3>
+        <h1 className="text-3xl font-semibold mb-8">Category.</h1>
 
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map(({ slug, large }) => {
+            const title = slug.replace(/-/g, " ");
+            const image = categoryImages[slug];
+
+            return (
+              <Link
+                key={slug}
+                to={`/shop?cat=${slug}`}
+                className={`relative group cursor-pointer rounded-xl overflow-hidden transition-shadow duration-300 ease-in-out
+            ${large ? "lg:col-span-2 lg:row-span-2" : ""}
+            hover:shadow-2xl`}
+                aria-label={`Shop category ${title}`}
+              >
+                {/* Image zoom on hover */}
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-full h-56 sm:h-48 md:h-56 lg:h-full object-cover
+              transition-transform duration-700 ease-in-out group-hover:scale-110"
+                  onError={(e) =>
+                    (e.target.src =
+                      "https://via.placeholder.com/600x400?text=No+Image")
+                  }
+                />
+
+                {/* Gradient overlay */}
+                <div
+                  className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-70
+            group-hover:opacity-90 transition-opacity duration-300"
+                ></div>
+
+                {/* Text always fixed at bottom */}
+                <div className="absolute left-4 bottom-4 text-white z-10">
+                  <p className="text-xs uppercase tracking-widest font-semibold mb-1">
+                    COLLECTION
+                  </p>
+                  <h3 className="text-xl font-bold capitalize">{title}</h3>
+                </div>
+
+                {/* Arrow slides/fades in without moving the text */}
+                <div
+                  className="absolute bottom-4 right-4 z-10 bg-blue-600 rounded-full p-2 text-white shadow-lg
+            opacity-0 group-hover:opacity-100
+            translate-y-4 group-hover:translate-y-0
+            transition-all duration-300"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ── Featured products ── */}
+      <section className="max-w-7xl mx-auto px-4 py-16 bg-tertiary-100">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <p className="text-xs text-tertiary-500 uppercase tracking-widest mb-1">
+              Handpicked for you
+            </p>
+            <h2
+              style={{
+                fontSize: "2.2rem",
+                fontWeight: 600,
+                color: "#0F0F0F",
+              }}
+            >
+              Featured Products
+            </h2>
+          </div>
+          <Link
+            to="/shop"
+            className="hidden sm:flex items-center gap-1 text-sm text-primary-600 hover:gap-2 transition-all font-medium"
+          >
+            View all <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          {prodLoading
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))
+            : featured.map((p, i) => (
+                <div
+                  key={p.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 60}ms` }}
+                >
+                  <ProductCard product={p} />
+                </div>
+              ))}
+        </div>
+
+        <div className="mt-8 text-center sm:hidden">
+          <Link
+            to="/shop"
+            className="inline-flex items-center gap-1 text-sm text-primary-600 font-medium"
+          >
+            View all products <ArrowRight size={14} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Perks bar ── */}
+      <section className="bg-white border-b border-tertiary-300">
+        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+          {PERKS.map(({ Icon, title, desc }) => (
+            <div key={title} className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-tertiary-100 flex items-center justify-center shrink-0 border border-tertiary-300">
+                <Icon size={18} color="#B8944A" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-secondary-800">
+                  {title}
+                </p>
+                <p className="text-xs text-tertiary-500">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative bg-black text-center py-24 px-5 overflow-hidden">
+        {/* subtle pattern background */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#d4af37_1px,transparent_1px)] bg-size-[20px_20px]" />
+
+        <div className="relative z-10 max-w-3xl mx-auto">
+          {/* top label */}
+          <p className="text-xs tracking-widest text-yellow-500 uppercase mb-4">
+            Limited Time Offer
+          </p>
+
+          {/* heading */}
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight text-white">
+            Free shipping on{" "}
+            <span className="bg-linear-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+              every order over $150
+            </span>
+          </h1>
+
+          {/* subtext */}
+          <p className="mt-6 text-gray-400 text-sm md:text-base">
+            No code needed. Just add to cart and watch the magic happen.
+          </p>
+
+          {/* button */}
+          <button className="mt-8 inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-semibold px-6 py-3 rounded-full transition">
+            SHOP NOW
+            <span>→</span>
+          </button>
+        </div>
+      </section>
+
+      {/* ── Blog previews ── */}
+      <section className="max-w-7xl mx-auto px-4 py-16">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <p className="text-xs text-tertiary-500 uppercase tracking-widest mb-1">
+              From our journal
+            </p>
+            <h2
+              style={{
+                fontFamily: "Cormorant Garamond",
+                fontSize: "2.2rem",
+                fontWeight: 600,
+                color: "#0F0F0F",
+              }}
+            >
+              Latest Posts
+            </h2>
+          </div>
+          <Link
+            to="/blog"
+            className="hidden sm:flex items-center gap-1 text-sm text-primary-600 hover:gap-2 transition-all font-medium"
+          >
+            All posts <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {postLoading
+            ? Array.from({ length: 3 }).map((_, i) => <PostSkeleton key={i} />)
+            : posts.map((post, i) => (
+                <div
+                  key={post.id}
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 80}ms` }}
+                >
+                  <PostCard post={post} />
+                </div>
+              ))}
+        </div>
+      </section>
     </div>
   );
 };
@@ -115,13 +355,20 @@ const HomePage = () => {
 export default HomePage;
 
 // ── Perks data ────────────────────────────────────────────────────────────────
-const PERKS  = [
-  { Icon: Truck,       title: 'Free Shipping',   desc: 'On orders over $75'        },
-  { Icon: RefreshCw,   title: 'Easy Returns',    desc: '30-day return policy'       },
-  { Icon: ShieldCheck, title: 'Secure Payments', desc: 'Your data is protected'     },
-  { Icon: Headphones,  title: '24/7 Support',    desc: "We're always here for you"  },
-]
-
+const PERKS = [
+  { Icon: Truck, title: "Free Shipping", desc: "On orders over $75" },
+  { Icon: RefreshCw, title: "Easy Returns", desc: "30-day return policy" },
+  {
+    Icon: ShieldCheck,
+    title: "Secure Payments",
+    desc: "Your data is protected",
+  },
+  {
+    Icon: Headphones,
+    title: "24/7 Support",
+    desc: "We're always here for you",
+  },
+];
 
 // ── Count-up hook ────────────────────────────────────────────────────────────
 function useCountUp(target, duration = 1800) {

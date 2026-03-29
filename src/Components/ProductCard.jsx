@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-// import { formatPrice } from "../Utils/helpers";
+import { formatPrice } from "../Utils/helpers";
 
 export default function ProductCard({ product }) {
   return (
@@ -7,9 +7,6 @@ export default function ProductCard({ product }) {
       <div className="relative  transition-transform duration-300">
 
         <div className="bg-tertiary-50 rounded-2xl">
-
-          {/* Bottom base line */}
-          {/* <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#d6d3d1]" /> */}
 
           {/* Animated hover line */}
           <span
