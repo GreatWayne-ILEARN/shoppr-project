@@ -1,4 +1,4 @@
-# Shoppr — []
+# Shoppr — Tecvinson Capstone Project
 
 A React e‑commerce capstone project built with React Router, DummyJSON API, and Tailwind CSS.
 
