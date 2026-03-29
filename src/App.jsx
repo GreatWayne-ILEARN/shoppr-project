@@ -4,10 +4,12 @@ import HomePage from "./Pages/HomePage.jsx";
 import BlogPage from "./Pages/BlogPage.jsx";
 import NotFoundPage from "./Pages/NotFoundPage.jsx";
 import CartPage from "./Pages/CartPage.jsx";
-import Layout from "./Pages/Layout.jsx";
+import Layout from './Components/Layout.jsx'
 import ShopPage from "./Pages/ShopPage";
 import ProductPage from "./Pages/ProductPage.jsx";
 import PostPage from "./Pages/PostPage.jsx";
+
+import "./index.css";
 
 const App = () => {
   return (
