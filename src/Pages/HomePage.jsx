@@ -105,8 +105,8 @@ const HomePage = () => {
       <section className="  border-white/10 overflow-hidden">
         {/* ── Stats Bar (bottom) ── */}
         <div className="">
-          <div className="max-w-7xl mx-auto bg-secondary-900 ">
-            <div className="grid grid-cols-3 md:grid-cols-3 ">
+          <div className="bg-secondary-900 ">
+            <div className="grid grid-cols-1 sm:grid-cols-3 max-w-7xl mx-auto">
               <StatBarItem target={194} suffix="+" label="Products" />
               <StatBarItem target={48000} suffix="+" label="Happy Customers" />
               <StatBarItem target={20} label="Categories" />
@@ -261,7 +261,7 @@ const HomePage = () => {
 
       {/* ── Perks bar ── */}
       <section className="bg-white border-b border-tertiary-300">
-        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="max-w-7xl mx-auto px-4 py-6 flex justify-between align-items-center gap-6 flex-wrap">
           {PERKS.map(({ Icon, title, desc }) => (
             <div key={title} className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-tertiary-100 flex items-center justify-center shrink-0 border border-tertiary-300">
